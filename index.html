@@ -3,72 +3,279 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My 19th Birthday</title>
+    <title>تسعة عشر - عام من الاستعادة</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      :root {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --accent-color: #d4af37;
+        --secret-red: #8b0000;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        background-color: #1a1a1a;
-        color: #333;
+        font-family: "Noto Sans Arabic", sans-serif;
+        background-color: var(--bg-color);
+        background-image: radial-gradient(
+          circle at center,
+          #1e1e1e 0%,
+          #121212 100%
+        );
+        color: var(--text-primary);
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      .container {
-        /* text-align: center; */
-        background-color: #2a2a2a;
-        padding: 40px;
-        margin: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        color: #ffffff;
-      }
-      h6 {
-        color: #ffffff;
-      }
-      p {
-        font-size: 1.2em;
-        color: rgb(198, 198, 198);
+        align-items: flex-start; /* لضمان بداية التمرير من الأعلى */
+        min-height: 100vh;
+        line-height: 1.8;
+        overflow-x: hidden;
       }
 
-      .noto-sans-arabic-400 {
-        font-family: "Noto Sans Arabic", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-        font-variation-settings: "wdth" 100;
+      /* حاوية الواجهة الأساسية */
+      .container {
+        max-width: 800px;
+        width: 90%; /* تجاوب مع الشاشات الصغيرة */
+        background-color: var(--card-bg);
+        padding: 60px;
+        margin: 40px auto;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border-right: 4px solid var(--accent-color);
+        transition: opacity 0.5s ease;
       }
-      .noto-sans-arabic-600 {
+
+      h1 {
+        font-family: "Amiri", serif;
+        font-size: 3rem;
+        margin-bottom: 30px;
+        color: #ffffff;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+      }
+
+      p {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: var(--text-secondary);
+        text-align: justify;
+      }
+
+      .highlight {
+        color: var(--accent-color);
+        font-weight: 500;
+      }
+
+      .secret-trigger {
+        display: block;
+        margin-top: 50px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .secret-trigger:hover {
+        color: var(--secret-red);
+      }
+
+      /* --- صفحة السر (المعدلة بحاوية) --- */
+      #secret-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #050505;
+        display: none;
+        overflow-y: auto;
+        z-index: 1000;
+        padding: 40px 0; /* مساحة علوية وسفلية للشاشة بأكملها */
+        animation: fadeIn 1.2s ease forwards;
+      }
+
+      .secret-container {
+        max-width: 750px;
+        width: 85%; /* هوامش جانبية تضمن الظهور في كل الأحجام */
+        margin: 20px auto 80px; /* تباعد علوي وسفلي */
+        background-color: #0a0a0a;
+        padding: 50px;
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      }
+
+      .secret-title {
+        font-family: "Amiri", serif;
+        color: var(--secret-red);
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+        text-align: center;
+        opacity: 0.8;
+      }
+
+      .secret-text {
+        font-family: "Amiri", serif;
+        color: #999;
+        font-size: 1.4rem;
+        line-height: 2.3;
+        text-align: justify;
+      }
+
+      .close-secret {
+        display: block;
+        margin: 60px auto 20px;
+        background: transparent;
+        border: 1px solid #333;
+        color: #555;
+        padding: 10px 35px;
+        cursor: pointer;
         font-family: "Noto Sans Arabic", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 600;
-        font-style: normal;
-        font-variation-settings: "wdth" 100;
+        transition: all 0.3s ease;
+      }
+
+      .close-secret:hover {
+        border-color: var(--secret-red);
+        color: var(--secret-red);
+        background: rgba(139, 0, 0, 0.05);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container,
+        .secret-container {
+          padding: 30px;
+          width: 90%;
+        }
+        h1 {
+          font-size: 2.2rem;
+        }
+        .secret-title {
+          font-size: 1.8rem;
+        }
       }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=Noto+Sans+Arabic:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
-    <div class="container">
-      <h1 class="noto-sans-arabic-600">
-تسعة عشر      </h1>
-      <p class="noto-sans-arabic-400">
-تمرُّ الأيامُ متسارعةً، كأنَّ كل عامٍ يطوي الذي قبله في سباقٍ مع الزمن، وتحديداً هذا العام الذي انقضى. أشعرُ بضبابيةٍ تلفُّ أحداثه؛ فبرغمِ كثرةِ ما وقع وما عاصرته الروح من تجارب، إلا أن ذاكرتي تقفُ عاجزةً عن استحضارِ التفاصيل، وكأنها تلاشت في زحامِ ما تعودتُ عليه.
-على أية حال، لم يرحل هذا العام إلا وقد أوضح لي اكتشافاتٍ كبرى مع ذاتي؛ فباتت الطرق أمامي أكثرَ وضوحاً، وذهب ضبابُ الحيرة عن معالمها. كان من أغلى ما تعلمت هو "فقه المقادير"؛ أن أمنحَ كلّ ذي قدرٍ قدرَه، دونَ إفراطٍ يشوهه أو نقصٍ يفسد القلب.
-مضت تلك الذكرى التي كانت تؤرقُني، وأدركتُ أنها ليست سوى أثرٍ من إنسانٍ كنتُه يوماً ولم أعدْه؛ كانت درساً استوفى غرضه وانقضى، فلا وجه لإحيائها فيما تبقى في جسدٍ جديد. وفي ذلك، بانت لي القيمةُ الحقيقيةُ للعلاقات الإنسانية؛ كيف لها أن تعيدَ هيكلةَ الوجود وتغيّر مجرى النظرة للحياة. لم يكن الأمر "غسيلاً للأدمغة" كما يتوهم البعض، بل كان ترميماً لصدوعِ الروح وملأً لفراغاتٍ كانت تسكنُ النفس وتنتظرُ مَن يعرف لغتها.
-كما تيقنتُ أن الوقوفَ الطويلَ في ردهاتِ الانتظار، والامتناعَ عن اتخاذِ الموقف، ليس من الحكمةِ في شيء؛ بل هو جبنٌ يتخفى خلفَ قناعِ التأني.
-كانت سنةً جميلةً بامتياز؛ لم أحصد فيها شيئاً مادياً يُذكر، إنما كان الربحُ في "النفس"، والفتحُ كان في استعادةِ الذات من شتاتها.
-والآن، أقفُ على أعتابِ العام الجديد، يملؤني طموحٌ بأن أكونَ أكثرَ صرامةً وحزماً، متخذاً الإرادةَ والعزيمةَ سلاحاً، ومُصراً على قراري، لا يثنيني عنه إلا الرحمن الحكيم، ولو أبى مَن أبى؛ دعهم يرطمون رؤوسهم بجدران الحائط.
+    <div class="container" id="main-content">
+      <h1>تسعة عشر</h1>
+      
+      <p>
+        تمرُّ الأيامُ متسارعةً، كأنَّ كل عامٍ يطوي الذي قبله في سباقٍ مع الزمن، وتحديداً هذا العام الذي انقضى. أشعرُ بضبابيةٍ تلفُّ أحداثه؛ فبرغمِ كثرةِ ما وقع وما عاصرته الروح من تجارب، إلا أن ذاكرتي تقفُ عاجزةً عن استحضارِ التفاصيل، وكأنها تلاشت في زحامِ ما تعودتُ عليه.
       </p>
+
+      <p>
+        على أية حال، لم يرحل هذا العام إلا وقد أوضح لي اكتشافاتٍ كبرى مع ذاتي؛ فباتت الطرق أمامي أكثرَ وضوحاً، وذهب ضبابُ الحيرة عن معالمها. كان من أغلى ما تعلمت هو <span class="highlight">"فقه المقادير"</span>؛ أن أمنحَ كلّ ذي قدرٍ قدرَه، دونَ إفراطٍ يشوهه أو نقصٍ يفسد القلب.
+      </p>
+
+      <p>
+        مضت تلك الذكرى التي كانت تؤرقُني، وأدركتُ أنها ليست سوى أثرٍ من إنسانٍ كنتُه يوماً ولم أعدْه؛ كانت درساً استوفى غرضه وانقضى، فلا وجه لإحيائها فيما تبقى في جسدٍ جديد. وفي ذلك، بانت لي القيمةُ الحقيقيةُ للعلاقات الإنسانية؛ كيف لها أن تعيدَ هيكلةَ الوجود وتغيّر مجرى النظرة للحياة. لم يكن الأمر "غسيلاً للأدمغة" كما يتوهم البعض، بل كان <span class="highlight">ترميماً لصدوعِ الروح</span> وملأً لفراغاتٍ كانت تسكنُ النفس وتنتظرُ مَن يعرف لغتها.
+      </p>
+
+      <p>
+        كما تيقنتُ أن الوقوفَ الطويلَ في ردهاتِ الانتظار، والامتناعَ عن اتخاذِ الموقف، ليس من الحكمةِ في شيء؛ بل هو جبنٌ يتخفى خلفَ قناعِ التأني.
+        كانت سنةً جميلةً بامتياز؛ لم أحصد فيها شيئاً مادياً يُذكر، إنما كان الربحُ في "النفس"، والفتحُ كان في <span class="highlight">استعادةِ الذات من شتاتها</span>.
+      </p>
+
+      <p>
+        والآن، أقفُ على أعتابِ العام الجديد، يملؤني طموحٌ بأن أكونَ أكثرَ صرامةً وحزماً، متخذاً الإرادةَ والعزيمةَ سلاحاً، ومُصراً على قراري، لا يثنيني عنه إلا الرحمن الحكيم، ولو أبى مَن أبى؛ دعهم يرطمون رؤوسهم بجدران الحائط.
+      </p>
+      <span class="secret-trigger" onclick="showSecret()"
+        >• المسودة المفقودة •</span
+      >
     </div>
+
+    <div id="secret-overlay">
+      <div class="secret-container">
+        <h2 class="secret-title">مسودة تم اختيارها مما كُتب</h2>
+        <div class="secret-text">
+          <p>
+            شعرتُ بفقدان ذاتي منذ ثلاث سنوات. شعرتُ وكأن روحي وكياني قد سُلِبا.
+            شعرتُ بفراغٍ مكبوت في صدري، يتمنى أن يرى نور الصباح ساكنَه، وهل من
+            ساكن؟ قطعة لحمٍ تكسو العظام؛ جسدٌ فارغٌ، ضامٍ، يلهبُ ويحمى مراراً
+            وتكراراً.
+          </p>
+          <p>
+            بعيداً عن الحس الوجداني والكلام الشاعري، يطرأ سؤالٌ على البال:
+            لماذا؟ ماذا حدث في تلك السنوات التي حوّلت ذلك الشخص الضعيف؟
+          </p>
+          <p>
+            تحدثنا عن الحاضر، فكيف كان الماضي؟ كان شخصاً مفعماً، يعيش كما يعيش
+            أقرانه من الخلق. شخصٌ وعى على الدنيا بعللٍ عاطفية بقي يصارعها
+            شهوراً. عندما خرج منها منتصراً، أدرك الحياة حقيقةً. لم يمر الزمان
+            إلا وقد عاد عدوٌ آخر: الترف.
+          </p>
+          <p>
+            عاش الشخص مزيجاً فريداً من الأحداث التي أعادت هيكلته. منها ما قد
+            حارب من قبل، ومنها ما حرّف طريقه بذاته ظناً منه أنه الحل الصحيح،
+            ومنها الفتور وتأخر اليقظة حتى نسي نفسه وظن أنه هكذا؛ ظن أن كل هذا
+            عبث، وظن أن إعادة التفكير مراراً وتكراراً ستشفيه، ناسياً أن الشفاء
+            مركبٌ من جزءٍ معنوي عقلي وآخر مادي فيزيائي يكون بالعمل بالجوارح.
+          </p>
+          <p>
+            مثلما الإيمان يكون اعتقاداً بالقلب، وقولاً باللسان، وعملاً بالجوارح؛
+            فلا يكفي أن تقول إنك آمنت ولم تقله أو تعمل به. جميع هذه المعارك
+            والأحداث والآثار سلبت منه الكثير من صفاته التي جعلت نظرته لذاته
+            كالغريب الذي يمر مرة في العمر؛ يلقي السلام ويمضي ولا يعود. عندما خرج
+            منها ببعض الجروح أراد أن يكمل الباقي من العمر، فتفاجأ بعدم قدرته
+            وعجزه وسقوطه الذي تلاه. تلك الأحداث تركت بصمةً، وتركت أثراً، تركت ما
+            تركت ورحلت.
+          </p>
+          <p>
+            عندما بدأ القلب يشعر أنه بدون جيران، توقف، وفكر، وتساءل: هل كان
+            الحال هكذا دائماً؟ سرعان ما أدرك وعلم واستيقظ: لا، لم يكن هكذا
+            أبداً. شعر بالأثر وجهل السبب، وبقي على حاله هذا يغلق ويفتح الموضوع
+            شهوراً أخرى دون إجابة صريحة.
+          </p>
+          <p>
+            السبب؟ جهلٌ، وضعفُ عزيمةٍ وبصيرة، وقد تطول اللائحة أو تقصر؛ فأنا هنا
+            ما زلت أفكر، أقترح، وأفكك. وجاء ذلك اليوم الموعود؛ اليوم الذي أدرك
+            فيه حقيقة الأمر. اليوم الذي جمع، وفكك، وركب، واستنبط، وبحث، وفكر؛
+            وأي أداة أخرى أضف كما تريد. لا تهم الوسيلة بل النتيجة. رأى الأمر كله
+            بصورة واضحة، علم أنه أخطأ، وأنه لم يفعل ما وجب. قصّر وجلب لنفسه
+            المذلة. أدرك أنه تكاسل حتى انطمست هويته وكيانه. أدرك أنه انجرف للترف
+            والراحة حتى ذاب كفص الملح. الآن يعلم أن العلاج يكمن في الفعل
+            والعمل...
+          </p>
+        </div>
+        <button class="close-secret" onclick="hideSecret()">
+          العودة إلى الحاضر
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function showSecret() {
+        const overlay = document.getElementById("secret-overlay");
+        overlay.style.display = "block";
+        document.getElementById("main-content").style.opacity = "0";
+        overlay.scrollTop = 0; // لضمان البدء من أعلى المسودة
+      }
+
+      function hideSecret() {
+        document.getElementById("secret-overlay").style.display = "none";
+        document.getElementById("main-content").style.opacity = "1";
+      }
+    </script>
   </body>
 </html>
